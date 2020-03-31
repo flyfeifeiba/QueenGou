@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop" xmlns:beans="http://www.springframework.org/schema/beans" xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+           http://www.springframework.org/schema/aop
+           http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+           http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+
+    <aop:aspectj-autoproxy proxy-target-class="true" />
+
+    <beans:bean id="loggerAdvise" class="com.example.aopdemo.module.advice.LoggerAdvice" />
+    <aop:config>
+        <aop:aspect id="loggerAspect" ref="loggerAdvise" order="0">
+            <!-- 鉴权接口顺序要第一 -->
+            <aop:pointcut id="loggerPointcut" expression="execution(* com.example.aopdemo.module.service.*.*(..))" />
+            <!-- 拦截所有请求 -->
+            <aop:around pointcut-ref="loggerPointcut" method="doAround" />
+        </aop:aspect>
+    </aop:config>
+
+</beans>
